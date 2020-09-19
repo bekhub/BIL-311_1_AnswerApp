@@ -1,0 +1,28 @@
+﻿@model (Answer, string)
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <form asp-action="Index" asp-controller="Home">
+        <div class="form-group">
+            <label for="question">Give me a question!</label>
+            <input id="question" type="text" placeholder="Question" name="question" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Confirm" class="btn btn-success" />
+        </div>
+    </form>
+    @if (Model.Item1 != null)
+    {
+        <h4>Your question:</h4>
+        <div class="alert alert-primary" role="alert">
+            @Model.Item2
+        </div>
+        <h4>Answer:</h4>
+        <div class="alert alert-success" role="alert">
+            @Model.Item1.Text
+        </div>
+    }
+</div>
