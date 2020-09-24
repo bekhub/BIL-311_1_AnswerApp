@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using AnswersApp.Data;
 using AnswersApp.Exceptions;
 using AnswersApp.Models;
-using AnswersApp.Resources;
-using Microsoft.CodeAnalysis.Differencing;
 using Microsoft.EntityFrameworkCore;
 
 namespace AnswersApp.Services
