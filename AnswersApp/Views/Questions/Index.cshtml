@@ -1,0 +1,71 @@
+@using AnswersApp.ViewModels.Questions
+
+@model IEnumerable<IndexPage>
+
+@{
+    ViewBag.Title = "Questions";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>@ViewBag.Title</h2>
+        </div>
+        <div class="col">
+            <input type="submit" value="Add question" onclick="addClick()" class="btn btn-success float-right" />
+            <div id="modDialog" class="modal fade" data-url="@Url.Action("Add")">
+                <div id="dialogContent" class="modal-dialog">
+                </div>
+            </div>
+            <div id="editDialog" class="modal fade" data-url="@Url.Action("Edit")">
+                <div id="editDialogContent" class="modal-dialog">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered table-hover table-sm">
+    <thead class="thead-light">
+    <tr>
+        <th>Questions</th>
+        <th>Answers</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Text</td>
+            <td>@item.Answer</td>
+            <td><a href="javascript:void(0);" onclick="editClick(@item.Id)">Edit</a></td>
+            <td><a asp-controller="Questions" asp-action="Delete" asp-route-id="@item.Id">Delete</a></td>
+        </tr>
+    }
+</table>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function addClick() {
+            let url = $('#modDialog').data('url');
+            
+            $.get(url, function (data) {
+               $('#dialogContent').html(data)
+               
+               $('#modDialog').modal('show'); 
+            });
+        }
+        function editClick(id) {
+            let url = $('#editDialog').data('url');
+                        
+            $.get(url, {id: id}).done(function (data) {
+               $('#editDialogContent').html(data)
+               
+               $('#editDialog').modal('show'); 
+            });
+        }
+    </script>
+}
+

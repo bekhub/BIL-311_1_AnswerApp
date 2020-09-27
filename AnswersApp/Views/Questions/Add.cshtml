@@ -1,0 +1,32 @@
+@model AnswersApp.ViewModels.Questions.AddPage<SelectListItem>
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">Add question</h4>
+    </div>
+    <div class="modal-body">
+        <dl class="dl-horizontal">
+            <form asp-action="Add" id="addForm" asp-controller="Questions">
+                <div class="form-group">
+                    <select asp-for="AnswerId" asp-items="Model.Answers" id="AnswerId" required></select>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Text" asp-for="Text" class="form-control" required/>
+                    @Html.ValidationMessageFor(x => x.Text)
+                </div>
+            </form>
+        </dl>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <input type="submit" id="submitButton" asp-action="Add" value="Add question" class="btn btn-success"/>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#submitButton').click(function (){
+        $('#addForm').submit();
+    });
+</script>
