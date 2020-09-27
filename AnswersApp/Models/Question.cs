@@ -9,6 +9,8 @@ namespace AnswersApp.Models
         [Required]
         public int AnswerId { get; set; }
         
+        public Answer Answer { get; set; }
+        
         [Required]
         [MinLength(3)]
         public string Text { get; set; }

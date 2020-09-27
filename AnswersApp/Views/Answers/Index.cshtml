@@ -11,24 +11,43 @@
         </div>
         <div class="col">
             @{ await Html.RenderPartialAsync("Add", new Answer()); }
+            <div id="editDialog" class="modal fade" data-url="@Url.Action("Edit")">
+                <div id="editDialogContent" class="modal-dialog">
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <table class="table table-bordered table-hover table-sm">
     <thead class="thead-light">
-        <tr>
-            <th>Answers</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
+    <tr>
+        <th>Answers</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
     </thead>
     @foreach (var item in Model)
     {
         <tr>
             <td>@item.Text</td>
-            <td><a asp-controller="Answers" asp-action="Edit" asp-route-id="@item.Id">Edit</a></td>
+            <td><a href="javascript:void(0);" onclick="editClick(@item.Id)">Edit</a></td>
             <td><a asp-controller="Answers" asp-action="Delete" asp-route-id="@item.Id">Delete</a></td>
         </tr>
     }
 </table>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function editClick(id) {
+            let url = $('#editDialog').data('url');
+                        
+            $.get(url, {id: id}).done(function (data) {
+               $('#editDialogContent').html(data)
+               
+               $('#editDialog').modal('show'); 
+            });
+        }
+    </script>
+}

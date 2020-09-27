@@ -44,5 +44,11 @@ namespace AnswersApp.Resources {
                 resourceCulture = value;
             }
         }
+        
+        internal static string AddAnswer {
+            get {
+                return ResourceManager.GetString("AddAnswer", resourceCulture);
+            }
+        }
     }
 }

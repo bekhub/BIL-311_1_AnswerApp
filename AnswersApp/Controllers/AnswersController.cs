@@ -37,7 +37,7 @@ namespace AnswersApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
-            return View(await _service.ById(id));
+            return PartialView(await _service.ById(id));
         }
 
         [HttpPost]

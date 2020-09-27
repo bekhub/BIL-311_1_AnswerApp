@@ -1,4 +1,4 @@
-﻿@model (Answer, string)
+﻿@model (string Answer, string Question)
 
 @{
     ViewData["Title"] = "Home Page";
@@ -14,15 +14,15 @@
             <input type="submit" value="Confirm" class="btn btn-success" />
         </div>
     </form>
-    @if (Model.Item1 != null)
+    @if (Model.Answer != null)
     {
         <h4>Your question:</h4>
         <div class="alert alert-primary" role="alert">
-            @Model.Item2
+            @Model.Question
         </div>
         <h4>Answer:</h4>
         <div class="alert alert-success" role="alert">
-            @Model.Item1.Text
+            @Model.Answer
         </div>
     }
 </div>

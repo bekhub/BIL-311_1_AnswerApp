@@ -49,18 +49,32 @@ namespace AnswersApp.Services
             await Context.SaveChangesAsync();
         }
 
-        public (Answer, string) AnswerForQuestion(string question)
+        public (string, string) AnswerForQuestion(string question)
         {
             if (question == null) return (null, null);
             var words = question.Split();
-            var answers = from i in Context.Answers.ToList().Where(x => words.Any(x.Text.Contains))
+            var questions = from i in Context.Questions
+                    .Include(q => q.Answer)
+                    .ToList()
+                    .Where(x => words.Any(x.Text.Contains))
                 orderby (from j in words 
                         select i.Text
                             .Split()
                             .Count(x => x == j)).Sum() 
                     descending
                 select i;
-            return (answers.First(), question);
+            if (questions.Any()) return (questions.First().Answer.Text, question);
+            var answers = from i in Context.Answers.ToList()
+                    .Where(x => words.Any(x.Text.Contains))
+                orderby (from j in words 
+                        select i.Text
+                            .Split()
+                            .Count(x => x == j)).Sum() 
+                    descending
+                select i;
+            return answers.Any() 
+                ? (answers.First().Text, question) 
+                : ("Sorry, but I don't have this question.", question);
         }
     }
 }
