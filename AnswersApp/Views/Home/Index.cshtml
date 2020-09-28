@@ -4,16 +4,21 @@
     ViewData["Title"] = "Home Page";
 }
 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
 <div class="text-center">
-    <form asp-action="Index" asp-controller="Home">
-        <div class="form-group">
-            <label for="question">Give me a question!</label>
-            <input id="question" type="text" placeholder="Question" name="question" class="form-control"/>
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Confirm" class="btn btn-success" />
+    <form asp-action="Index" id="questionForm" asp-controller="Home">
+        <div class="container">
+            <div class="form-group">
+                <input id="question" type="text" placeholder="Give me a question!" name="question" class="form-control"/>
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" value="Confirm" class="btn btn-success"/>
+            </div>
         </div>
     </form>
+    <button id="voiceCommand" class="btn btn-primary"><i class="fa fa-microphone"></i> Voice</button>
+    <br><br>
     @if (Model.Answer != null)
     {
         <h4>Your question:</h4>
@@ -21,8 +26,49 @@
             @Model.Question
         </div>
         <h4>Answer:</h4>
-        <div class="alert alert-success" role="alert">
+        <div id="answer" class="alert alert-success" role="alert">
             @Model.Answer
         </div>
     }
 </div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function () {
+           var SpeechRecognition = window.webkitSpeechRecognition;
+           var SpeechGrammarList = window.webkitSpeechGrammarList;
+           
+           var grammar = '#JSGF V1.0';
+           
+           var recognition = new SpeechRecognition();
+           var speechRecognitionList = new SpeechGrammarList();
+           speechRecognitionList.addFromString(grammar, 1);
+           recognition.grammars = speechRecognitionList;
+           recognition.lang = 'en-US';
+           recognition.interimResults = true;
+           
+           recognition.onresult = function(event) {
+               let command = event.results[0][0].transcript;
+               let isFinal = event.results[0].isFinal;
+               $('#question').val(command);
+               console.log(command);
+               if (isFinal) {
+                   $('#questionForm').submit();
+               }
+           };
+           document.querySelector('#voiceCommand').onclick = function() {
+               recognition.start();
+               console.log('start');
+           };
+           
+           recognition.onspeechend = function() {
+               recognition.stop();
+           };
+           
+           recognition.onerror = function(event) {
+               $('#question').val('Error occured in recognition: ' + event.error);
+           };
+        });
+    </script>
+}

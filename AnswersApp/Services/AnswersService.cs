@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,20 +57,24 @@ namespace AnswersApp.Services
             var questions = from i in Context.Questions
                     .Include(q => q.Answer)
                     .ToList()
-                    .Where(x => words.Any(x.Text.Contains))
+                    .Where(x => words.Any(o => x.Text.Contains(o,
+                        StringComparison.CurrentCultureIgnoreCase)))
                 orderby (from j in words 
                         select i.Text
                             .Split()
-                            .Count(x => x == j)).Sum() 
+                            .Count(x => string.Equals(x, j, 
+                                StringComparison.CurrentCultureIgnoreCase))).Sum() 
                     descending
                 select i;
             if (questions.Any()) return (questions.First().Answer.Text, question);
             var answers = from i in Context.Answers.ToList()
-                    .Where(x => words.Any(x.Text.Contains))
+                    .Where(x => words.Any(o => x.Text.Contains(o, 
+                        StringComparison.CurrentCultureIgnoreCase)))
                 orderby (from j in words 
                         select i.Text
                             .Split()
-                            .Count(x => x == j)).Sum() 
+                            .Count(x => string.Equals(x, j, 
+                                StringComparison.CurrentCultureIgnoreCase))).Sum() 
                     descending
                 select i;
             return answers.Any() 
