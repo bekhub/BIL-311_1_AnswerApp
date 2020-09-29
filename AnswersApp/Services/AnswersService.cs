@@ -79,7 +79,7 @@ namespace AnswersApp.Services
                 select i;
             return answers.Any() 
                 ? (answers.First().Text, question) 
-                : ("Sorry, but I don't have this question.", question);
+                : ("Sorry, but I have no answer to this question.", question);
         }
     }
 }
