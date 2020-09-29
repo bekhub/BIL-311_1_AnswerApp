@@ -7,6 +7,7 @@
     <div class="modal-body">
         <dl class="dl-horizontal">
             <form asp-action="Edit" id="editForm" asp-controller="Answers">
+                @Html.HiddenFor(x => x.Id)
                 <div class="form-group">
                     <input type="text" asp-for="Text" class="form-control" required/>
                     @Html.ValidationMessageFor(x => x.Text)
@@ -14,12 +15,12 @@
             </form>
         </dl>
     </div>
-    <dic class="modal-footer">
+    <div class="modal-footer">
         <div class="form-group">
             <input type="submit" id="submitButton" asp-action="Edit" value="Edit" class="btn btn-success"/>
             <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
         </div>
-    </dic>
+    </div>
 </div>
 
 <script type="text/javascript">

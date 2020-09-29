@@ -8,7 +8,7 @@
         <dl class="dl-horizontal">
             <form asp-action="Add" id="addForm" asp-controller="Questions">
                 <div class="form-group">
-                    <select asp-for="AnswerId" asp-items="Model.Answers" id="AnswerId" required></select>
+                    <select asp-for="AnswerId" class="form-control" asp-items="Model.Answers" id="AnswerId" required></select>
                 </div>
                 <div class="form-group">
                     <input type="text" placeholder="Text" asp-for="Text" class="form-control" required/>
